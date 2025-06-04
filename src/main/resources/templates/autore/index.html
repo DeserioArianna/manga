@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Autore</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="container py-4">
+
+    <div th:replace="~{fragment/navbar :: navbar}"></div>
+    
+    <div class="container mt-5">
+        <h1>Autori</h1>
+
+        <a href="/autore/create" class="btn btn-success mb-3">Aggiungi Autore</a>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Azioni</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="autore : ${autori}">
+                    <td th:text="${autore.id}">1</td>
+                    <td th:text="${autore.nomeAutore}">Nome Autore</td>
+                    <td>
+                        <a th:href="@{'/autore/edit/' + ${autore.id}}" class="btn btn-primary btn-sm">Modifica</a>
+                        <form th:action="@{'/autore/delete/' + ${autore.id}}" method="post"
+                            style="display:inline-block;">
+                            <button type="submit" class="btn btn-danger btn-sm">Elimina</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

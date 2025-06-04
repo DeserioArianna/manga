@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${autore.titolo}">Autore</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="container py-4">
+
+    <div th:replace="~{fragment/navbar :: navbar}"></div>
+    
+    <div class="container mt-5">
+        <h1 th:text="${genere.id != null} ? 'Modifica Genere' : 'Nuovo Genere'">Form Genere</h1>
+
+        <form th:action="@{${genere.id != null} ? '/genere/edit/' + ${genere.id} : '/genere/create'}"
+            th:object="${genere}" method="post">
+
+            <div class="mb-3">
+                <label for="nomeGenere" class="form-label">Nome Genere</label>
+                <input type="text" id="nomeGenere" class="form-control" th:field="*{nomeGenere}" required>
+                <div th:if="${#fields.hasErrors('nomeGenere')}" class="text-danger" th:errors="*{nomeGenere}"></div>
+            </div>
+
+            <button type="submit" class="btn btn-primary"
+                th:text="${genere.id != null} ? 'Salva modifiche' : 'Crea Genere'">Salva</button>
+            <a href="/genere" class="btn btn-secondary">Annulla</a>
+        </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
