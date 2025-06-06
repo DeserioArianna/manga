@@ -10,6 +10,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -32,16 +35,30 @@ public class SecurityConfig {
     }
 
     @Bean
+    public CorsFilter corsFilter() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("http://localhost:5173"); // 👈 origine React
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
+    }
+
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .cors() // 👈 Abilita Cors
+                .and()
+                .csrf(csrf -> csrf.disable()) // 👈 Disattiva il controllo CSRF per API REST
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/manga/**").permitAll() // accesso pubblico a index e dettaglio
+                        .requestMatchers("/", "/manga/**", "/api/manga", "/api/manga/**").permitAll()
                         .requestMatchers("/create", "/edit/**", "/delete/**", "/autore/**", "/genere/**")
-                        .hasAuthority("ADMIN") // solo admin
-                        .anyRequest().authenticated() // il resto solo se loggati
-                )
+                        .hasAuthority("ADMIN")
+                        .anyRequest().authenticated())
                 .formLogin(login -> login
-                        // .loginPage("/login") // puoi personalizzare la pagina di login
                         .defaultSuccessUrl("/manga", true)
                         .permitAll())
                 .logout(logout -> logout
