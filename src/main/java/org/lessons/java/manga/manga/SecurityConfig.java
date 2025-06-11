@@ -50,9 +50,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .cors() // 👈 Abilita Cors
-                .and()
-                .csrf(csrf -> csrf.disable()) // 👈 Disattiva il controllo CSRF per API REST
+                .csrf(csrf -> csrf.disable()) // 👈 Disattivo il controllo CSRF per API REST
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/manga/**", "/api/manga", "/api/manga/**").permitAll()
                         .requestMatchers("/create", "/edit/**", "/delete/**", "/autore/**", "/genere/**")
@@ -63,7 +61,8 @@ public class SecurityConfig {
                         .permitAll())
                 .logout(logout -> logout
                         .logoutSuccessUrl("/manga")
-                        .permitAll());
+                        .permitAll())
+                .cors(withDefaults -> {}); // 👈 Abilito Cors con configurazione di default
 
         return http.build();
     }

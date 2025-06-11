@@ -19,12 +19,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
-
 @RestController
 @RequestMapping("/api/manga")
 public class MangaRestAdvanceController {
-    
+
     @Autowired
     private MangaService mangaService;
 
@@ -32,7 +30,7 @@ public class MangaRestAdvanceController {
     public List<Manga> index(String titolo) {
         return mangaService.findAll(titolo);
     }
-    
+
     @GetMapping("/{id}")
     public ResponseEntity<Manga> show(@PathVariable Integer id) {
         Manga manga = mangaService.findById(id);
@@ -43,11 +41,11 @@ public class MangaRestAdvanceController {
 
         return new ResponseEntity<Manga>(manga, HttpStatus.OK);
     }
-    
+
     @PostMapping("")
     public ResponseEntity<Manga> store(@Valid @RequestBody Manga manga) {
-       Manga mangaNuovo = mangaService.create(manga);
-       return new ResponseEntity<Manga>(mangaNuovo, HttpStatus.CREATED);
+        Manga mangaNuovo = mangaService.create(manga);
+        return new ResponseEntity<Manga>(mangaNuovo, HttpStatus.CREATED);
     }
 
     @PatchMapping("/{id}")
@@ -72,6 +70,7 @@ public class MangaRestAdvanceController {
         mangaService.delete(id);
         return ResponseEntity.ok("Manga eliminato con successo");
     }
+
     
-    
+
 }

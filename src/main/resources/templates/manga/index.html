@@ -29,13 +29,14 @@
             <tbody>
                 <tr th:each="manga : ${mangaLista}">
                     <td th:text="${manga.titolo}">Titolo</td>
-                    <td th:text="${manga.autore.nomeAutore}">Autore</td>
+                    <td th:if="${manga.autore != null}" th:text="${manga.autore.nomeAutore}">Autore</td>
+                    <td th:if="${manga.autore == null}">N/A</td>
                     <td th:text="${manga.annoPubblicazione}">Anno</td>
                     <td>
                         <a th:href="@{/manga/{id}(id=${manga.id})}" class="btn btn-info btn-sm">Mostra</a>
                         <div sec:authorize="hasAuthority('ADMIN')" class="d-inline">
                             <a th:href="@{/manga/edit/{id}(id=${manga.id})}" class="btn btn-warning btn-sm">Modifica</a>
-                            <form th:action="@{/manga/delete}" method="post" class="d-inline">
+                            <form th:action="@{/manga/delete/{id}(id=${manga.id})}" method="post" class="d-inline">
                                 <input type="hidden" th:name="id" th:value="${manga.id}" />
                                 <button type="submit" class="btn btn-danger btn-sm">Elimina</button>
                             </form>

@@ -10,10 +10,13 @@
 <body class="container py-4">
 
     <div th:replace="~{fragment/navbar :: navbar}"></div>
-    
+
     <h1>Generi</h1>
 
-    <a href="/genere/create" class="btn btn-success mb-3">Aggiungi Genere</a>
+    <div class="d-flex justify-content-between">
+        <a href="/genere/create" class="btn btn-success mb-3">Aggiungi Genere</a>
+        <a href="/manga/create" class="btn btn-warning mb-3">Crea un Manga</a>
+    </div>
 
     <table class="table table-striped">
         <thead>
