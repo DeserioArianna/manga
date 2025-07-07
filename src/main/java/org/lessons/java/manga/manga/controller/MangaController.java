@@ -91,6 +91,8 @@ public class MangaController {
     public String updateManga(@Valid @ModelAttribute Manga manga, BindingResult bindingResult, Model model) {
         
         if (bindingResult.hasErrors()) {
+            model.addAttribute("autore", autoreRepository.findAll());
+            model.addAttribute("generi", genereRepository.findAll());
             return "manga/create-or-edit";
         }
 
